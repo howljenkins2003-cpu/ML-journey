@@ -1,2 +1,10 @@
 *.csv
 *.data
+*.test
+*.names
+*.Z
+expanded
+Index
+*.data
+*.names
+README
