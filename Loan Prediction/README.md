@@ -20,8 +20,6 @@ Logistic Regression — test acc 0.83, train 0.76 (no overfitting gap)
 - Credit_History coefficient (3.09) dominates all other features 5-8x — 
   model is essentially a credit-history classifier with minor adjustments
 
-## Next
-Test model with Credit_History dropped, to confirm its dominance
 
 ## Feature Engineering — Income_to_Loan
 
