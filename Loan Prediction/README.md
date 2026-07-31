@@ -38,4 +38,4 @@ Logistic Regression — test acc 0.83, train 0.76 (no overfitting gap)
 
 **Multicollinearity note:** with ratio + raw cols both present, ratio's coefficient went negative despite domain logic saying positive — derived features overlapping with their source columns make coefficients unreliable, even when predictions stay fine.
 
-**Verdict:** no case for adding it on top; reasonable case for replacing the 2 raw cols with it if you want fewer features.
+**Verdict:** no case for adding it on top; reasonable case for replacing the 2 raw cols with it if you want fewer features
