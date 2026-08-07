@@ -39,3 +39,30 @@ Logistic Regression — test acc 0.83, train 0.76 (no overfitting gap)
 **Multicollinearity note:** with ratio + raw cols both present, ratio's coefficient went negative despite domain logic saying positive — derived features overlapping with their source columns make coefficients unreliable, even when predictions stay fine.
 
 **Verdict:** no case for adding it on top; reasonable case for replacing the 2 raw cols with it if you want fewer features.
+
+
+## Update — Pipeline is now ship-ready
+
+Refactored the two remaining manual pandas steps into real custom transformers, closing the "half pipeline" gap.
+
+**FeatureEngineer** (`BaseEstimator, TransformerMixin`)
+- Replaces the manual `Income_to_Loan` computation that previously lived outside the pipeline
+- `fit` learns `loan_median_` from whatever `X` it's given; `transform` builds the ratio using that frozen median
+- Verified leakage-safe: `self.loan_median_` after fitting on `X_train` matches `X_train['LoanAmount'].median()` exactly — confirms `X_test` never influenced the learned value
+- Results match the old manual approach almost exactly (LR CV: 0.8038 both ways) — moving the logic into a proper transformer didn't change performance, only made it portable
+
+**BinaryMapper** (`BaseEstimator, TransformerMixin`)
+- Replaces manual `.map()` calls for `Gender`, `Married`, `Education`, `Self_Employed`
+- No `fit` logic needed (fixed dictionaries, nothing learned from data) — `fit` is a no-op that just returns `self` to satisfy the pipeline contract
+- `Loan_Status` (the target) deliberately stays **outside** the pipeline — mapped once on `df` before the split, since pipelines only ever process `X`, never `y`
+
+**Why this matters:** the pipeline now takes raw, unprocessed input and handles feature engineering, encoding, imputation, and prediction entirely internally. No external caller needs private knowledge of the preprocessing steps — that's the actual bar for "production-ready," not just "high accuracy."
+
+```python
+Pipeline([
+    ('feature_eng', FeatureEngineer()),
+    ('binary_map', BinaryMapper()),
+    ('preprocessor', preprocessor),
+    ('model', LogisticRegression(class_weight='balanced', max_iter=1000, random_state=42))
+])
+```
