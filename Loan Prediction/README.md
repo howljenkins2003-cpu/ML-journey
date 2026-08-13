@@ -58,3 +58,11 @@ Refactored the two remaining manual pandas steps into real custom transformers, 
 
 **Why this matters:** the pipeline now takes raw, unprocessed input and handles feature engineering, encoding, imputation, and prediction entirely internally. No external caller needs private knowledge of the preprocessing steps — that's the actual bar for "production-ready," not just "high accuracy."
 
+```python
+Pipeline([
+    ('feature_eng', FeatureEngineer()),
+    ('binary_map', BinaryMapper()),
+    ('preprocessor', preprocessor),
+    ('model', LogisticRegression(class_weight='balanced', max_iter=1000, random_state=42))
+])
+```
