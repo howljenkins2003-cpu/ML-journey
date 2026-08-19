@@ -49,7 +49,7 @@ Refactored the two remaining manual pandas steps into real custom transformers, 
 - Replaces the manual `Income_to_Loan` computation that previously lived outside the pipeline
 - `fit` learns `loan_median_` from whatever `X` it's given; `transform` builds the ratio using that frozen median
 - Verified leakage-safe: `self.loan_median_` after fitting on `X_train` matches `X_train['LoanAmount'].median()` exactly — confirms `X_test` never influenced the learned value
-- Results match the old manual approach almost exactly (LR CV: 0.8038 both ways) — moving the logic into a proper transformer didn't change performance, only made it portable
+- Results match the old manual approach almost exactly (LR CV: 0.8038 both ways) — moving the logic into a proper transformer didn't change performance, only made it portable 
 
 **BinaryMapper** (`BaseEstimator, TransformerMixin`)
 - Replaces manual `.map()` calls for `Gender`, `Married`, `Education`, `Self_Employed`
