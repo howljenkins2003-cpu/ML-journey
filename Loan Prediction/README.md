@@ -57,6 +57,7 @@ Refactored the two remaining manual pandas steps into real custom transformers, 
 - `Loan_Status` (the target) deliberately stays **outside** the pipeline — mapped once on `df` before the split, since pipelines only ever process `X`, never `y`
 
 **Why this matters:** the pipeline now takes raw, unprocessed input and handles feature engineering, encoding, imputation, and prediction entirely internally. No external caller needs private knowledge of the preprocessing steps — that's the actual bar for "production-ready," not just "high accuracy."
+
 ```python
 Pipeline([
     ('feature_eng', FeatureEngineer()),
