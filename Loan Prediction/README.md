@@ -40,7 +40,6 @@ Logistic Regression — test acc 0.83, train 0.76 (no overfitting gap)
 
 **Verdict:** no case for adding it on top; reasonable case for replacing the 2 raw cols with it if you want fewer features.
 
-
 ## Update — Pipeline is now ship-ready
 
 Refactored the two remaining manual pandas steps into real custom transformers, closing the "half pipeline" gap.
